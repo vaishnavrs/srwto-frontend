@@ -1,0 +1,17 @@
+.search-form{
+    display: flex;
+    margin: auto;
+    width: 50%;
+    margin-top: 8%;
+    margin-left: 30%;
+}
+
+
+.search-form form{
+    display:flex;
+}
+
+.search-form form input[type="text"]{    
+    width: 300px;
+    margin-right: 13px;
+}
