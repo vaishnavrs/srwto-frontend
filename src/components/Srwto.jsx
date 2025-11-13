@@ -110,35 +110,94 @@ export default function Srwto() {
     }
   };
 
-  const downloadPdf = async () => {
-    setLoading(true);
-    setError(null);
+  // const downloadPdf = async () => {
+  //   setLoading(true);
+  //   setError(null);
 
-    const payload = buildPayload();
-    try {
-      const resp = await fetch("https://srwto-backend.onrender.com/menus/dscr_exact/", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-      if (!resp.ok) {
-        const txt = await resp.text();
-        throw new Error(`PDF generation failed: ${resp.status} ${txt}`);
-      }
-      const blob = await resp.blob();
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "srwto_dscr_filled_form.pdf";
-      a.click();
-      window.URL.revokeObjectURL(url);
-    } catch (err) {
-      console.error(err);
-      setError(err.message || "PDF error");
-    } finally {
-      setLoading(false);
+  //   const payload = buildPayload();
+  //   try {
+  //     const resp = await fetch("https://srwto-backend.onrender.com/menus/dscr_exact/", {
+  //       method: "POST",
+  //       headers: { "Content-Type": "application/json" },
+  //       body: JSON.stringify(payload),
+  //     });
+  //     if (!resp.ok) {
+  //       const txt = await resp.text();
+  //       throw new Error(`PDF generation failed: ${resp.status} ${txt}`);
+  //     }
+  //     const blob = await resp.blob();
+  //     const url = window.URL.createObjectURL(blob);
+  //     const a = document.createElement("a");
+  //     a.href = url;
+  //     a.download = "srwto_dscr_filled_form.pdf";
+  //     a.click();
+  //     window.URL.revokeObjectURL(url);
+  //   } catch (err) {
+  //     console.error(err);
+  //     setError(err.message || "PDF error");
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+  const downloadPdf = async () => {
+  setLoading(true);
+  setError(null);
+
+  const payload = buildPayload();
+  try {
+    const resp = await fetch(`${API_URL}/menus/dscr_exact/`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+
+    if (!resp.ok) {
+      const txt = await resp.text();
+      throw new Error(`PDF generation failed: ${resp.status} ${txt}`);
     }
-  };
+
+    const blob = await resp.blob();
+    const fileName = "srwto_dscr_filled_form.pdf"; // fallback name
+
+    // Create object URL
+    const url = window.URL.createObjectURL(blob);
+
+    // iOS detection (very small heuristic)
+    const isiOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+
+    // If iOS: open in new tab (Safari will render with UI to save)
+    if (isiOS) {
+      window.open(url, "_blank");
+      // Optionally offer native share if available
+      if (navigator.share) {
+        const file = new File([blob], fileName, { type: "application/pdf" });
+        try {
+          await navigator.share({ files: [file], title: fileName });
+        } catch (err) {
+          // user probably cancelled share — ignore
+        }
+      }
+      // cleanup after short delay
+      setTimeout(() => URL.revokeObjectURL(url), 10000);
+      return;
+    }
+
+    // For other platforms (desktop, Android) try to trigger download
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = fileName;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+  } catch (err) {
+    console.error("PDF error:", err);
+    setError(err.message || "PDF error");
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   // Apply solver suggestion to form (if available)
   // const applySuggestion = () => {
