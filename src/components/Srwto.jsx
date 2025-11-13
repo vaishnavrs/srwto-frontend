@@ -141,14 +141,14 @@ export default function Srwto() {
   };
 
   // Apply solver suggestion to form (if available)
-  const applySuggestion = () => {
-    if (!result?.suggestion?.adjusted_inputs) return;
-    const adj = result.suggestion.adjusted_inputs;
-    if (adj.days_per_month != null) setDaysPerMonth(adj.days_per_month);
-    if (adj.depreciation_rate_pct != null) setDepreciationPct(adj.depreciation_rate_pct);
-    if (adj.drawings_annual != null) setDrawingsMonthly((adj.drawings_annual / 12).toFixed(2));
-    if (adj.others_annual != null) setOthersMonthly((adj.others_annual / 12).toFixed(2));
-  };
+  // const applySuggestion = () => {
+  //   if (!result?.suggestion?.adjusted_inputs) return;
+  //   const adj = result.suggestion.adjusted_inputs;
+  //   if (adj.days_per_month != null) setDaysPerMonth(adj.days_per_month);
+  //   if (adj.depreciation_rate_pct != null) setDepreciationPct(adj.depreciation_rate_pct);
+  //   if (adj.drawings_annual != null) setDrawingsMonthly((adj.drawings_annual / 12).toFixed(2));
+  //   if (adj.others_annual != null) setOthersMonthly((adj.others_annual / 12).toFixed(2));
+  // };
 
   // small UI helpers
   const fmtNum = (v) => {
