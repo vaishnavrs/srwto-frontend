@@ -90,7 +90,7 @@ export default function Srwto() {
     setLoading(true);
     setResult(null);
     try {
-      const resp = await fetch("http://127.0.0.1:8000/menus/dscr/", {
+      const resp = await fetch("https://srwto-backend.onrender.com/menus/dscr/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
@@ -116,7 +116,7 @@ export default function Srwto() {
 
     const payload = buildPayload();
     try {
-      const resp = await fetch("http://127.0.0.1:8000/menus/dscr_exact/", {
+      const resp = await fetch("https://srwto-backend.onrender.com/menus/dscr_exact/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
