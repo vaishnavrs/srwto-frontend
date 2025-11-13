@@ -9,15 +9,12 @@ function Home() {
      const selectMenu = (menuValue) => {
       const normalized = menuValue.trim().toLowerCase();
       if (!normalized) {
-        setError('Please enter a menu name.');
         return;
       }
       if (availableMenus.includes(normalized)) {
         setSelectedMenu(normalized);
-        setError('');
       } else {
         setSelectedMenu(null);
-        setError(`"${menuValue}" is not available.`);
       }
   };
 
