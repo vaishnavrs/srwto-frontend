@@ -151,11 +151,11 @@ export default function Srwto() {
   // };
 
   // small UI helpers
-  const fmtNum = (v) => {
-    const n = Number(v);
-    if (!Number.isFinite(n)) return "-";
-    return n.toLocaleString(undefined, { maximumFractionDigits: 2 });
-  };
+  // const fmtNum = (v) => {
+  //   const n = Number(v);
+  //   if (!Number.isFinite(n)) return "-";
+  //   return n.toLocaleString(undefined, { maximumFractionDigits: 2 });
+  // };
 
   return (
     <div className="container my-3">
