@@ -5,7 +5,6 @@ function Home() {
     const [menu,setMenu] = useState('')
     const [selectedMenu, setSelectedMenu] = useState(null);
     const availableMenus = ['srwto', 'menu1', 'menu2', 'menu3'];
-    const [error, setError] = useState('');
 
      const selectMenu = (menuValue) => {
       const normalized = menuValue.trim().toLowerCase();
